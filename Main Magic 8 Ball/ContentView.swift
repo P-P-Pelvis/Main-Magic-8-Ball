@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var randomValue = 0
     @State private var rotation = 0.0
+    @State private var messageOpacity = 1.0
     let messages: [String] = [ // Array that stores possible messages
         "It is certain",
         "Ask again later",
@@ -35,11 +36,16 @@ struct ContentView: View {
                 .font(.largeTitle)
                 .bold()
                 .padding()
+                .opacity(messageOpacity)
             Button("Shake") { // Animate rotation and pick a new random index
                 withAnimation(.spring(response: 0.5, dampingFraction: 0.4, blendDuration: 0.2)) {
                     rotation += 360
                 }
+                messageOpacity = 0
                 randomValue = Int.random(in: 0..<messages.count)
+                withAnimation(.easeIn(duration: 0.35)) {
+                    messageOpacity = 1
+                }
             }
             .buttonStyle(CustomButtonStyle())
             .padding(.top, 16)
