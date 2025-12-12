@@ -50,7 +50,16 @@ struct ContentView: View {
         "Very doubtful",
         "Yes, definitely",
         "Better not tell you now",
-        "Signs point to yes"
+        "Signs point to yes",
+        "The 8-Ball is tired, Go Google it",
+        "Why would you even want to know that?",
+        "Sure. If you believe in miracles",
+        "Ask again when you stop being delusional",
+        "The answer is yes... just kidding, it’s no",
+        "If ignorance were a sport, you’d medal for this question",
+        "Ask again when you’ve upgraded your common sense",
+        "Outlook not good. Like you thought it would be?",
+        "You already know the answer is no. Don’t play dumb"
         ]
 
     private func rerollMessage() {
@@ -75,6 +84,8 @@ struct ContentView: View {
             Text("Magic 8 Ball")
                 .font(.largeTitle)
                 .bold()
+                .frame(maxWidth: .infinity, alignment: .center)
+                .multilineTextAlignment(.center)
             Image("9ball")
                 .resizable()
                 .frame(width: 300, height: 300)
@@ -85,6 +96,8 @@ struct ContentView: View {
                 .font(.largeTitle)
                 .bold()
                 .padding()
+                .frame(maxWidth: .infinity, alignment: .center)
+                .multilineTextAlignment(.center)
                 .opacity(messageOpacity)
             Button("Shake") { // Animate rotation and pick a new random index
                 rerollMessage()
