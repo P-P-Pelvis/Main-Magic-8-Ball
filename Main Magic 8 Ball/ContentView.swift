@@ -44,7 +44,7 @@ struct ContentView: View {
     @State private var rotation = 0.0
     @State private var messageOpacity = 1.0
     let messages: [String] = [ // Array that stores possible messages
-        "It is certain",
+        "It is certain", // Questions 0 - 20
         "Ask again later",
         "Don't count on it",
         "Outlook good",
@@ -55,12 +55,16 @@ struct ContentView: View {
         "The 8-Ball is tired, Go Google it",
         "Why would you even want to know that?",
         "Sure. If you believe in miracles",
-        "Ask again when you stop being delusional",
+        "Ask when you stop being delusional",
         "The answer is yes... just kidding, it’s no",
-        "If ignorance were a sport, you’d medal for this question",
-        "Ask again when you’ve upgraded your common sense",
-        "Outlook not good. Like you thought it would be?",
-        "You already know the answer is no. Don’t play dumb"
+        "Im not a miracle ball",
+        "Outlook not good",
+        "You already know the answer is no",
+        "WOW, does stupiditi run in the family?",
+        "A ball wont pay the mortgage",
+        "idk",
+        "Delusion delusion delusion... ",
+        "Need therapy for that question"
     ]
     
     private func rerollMessage() { // Function that rerolls the message and adds the fade in effect and also controlls the 9ball animation
@@ -75,44 +79,48 @@ struct ContentView: View {
     }
     
     var body: some View {
-        VStack {
-            ShakeDetector { // Invisible shake listener, checks when the phone is shaken
-                rerollMessage()
-            }
-            .frame(width: 0, height: 0)
-            Text("Magic 8 Ball")
-                .font(.largeTitle)
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .center)
-                .multilineTextAlignment(.center)
-            Image("9ball")
-                .resizable()
-                .frame(width: 300, height: 300)
-                .rotationEffect(.degrees(rotation))
-                .rotation3DEffect(.degrees(rotation), axis: (x: 1 , y: 1, z: 0))
-                .padding(50)
-            Text(messages[randomValue])
-                .font(.largeTitle)
-                .bold()
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .center)
-                .multilineTextAlignment(.center)
-                .opacity(messageOpacity)
-            Button("Shake") { // Animate rotation and pick a new random index
-                rerollMessage()
-            }
-            .buttonStyle(CustomButtonStyle())
-            .padding(.top, 16)
-        } // End Vstack
-        
+        NavigationView {
+            VStack {
+                ShakeDetector { // Invisible shake listener, checks when the phone is shaken
+                    rerollMessage()
+                }
+                .frame(width: 0, height: 0)
+                Text("Magic 8 Ball")
+                    .font(.largeTitle)
+                    .bold()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .multilineTextAlignment(.center)
+                Image("9ball")
+                    .resizable()
+                    .frame(width: 300, height: 300)
+                    .rotationEffect(.degrees(rotation))
+                    .rotation3DEffect(.degrees(rotation), axis: (x: 1 , y: 1, z: 0))
+                    .padding(50)
+                Text(messages[randomValue])
+                    .font(.largeTitle)
+                    .bold()
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .multilineTextAlignment(.center)
+                    .opacity(messageOpacity)
+                Button("Shake") { // Animate rotation and pick a new random index
+                    rerollMessage()
+                }
+                .buttonStyle(CustomButtonStyle())
+                .padding(.top, 16)
+                NavigationLink("How to Use", destination: InstructionsView())
+                    .buttonStyle(CustomButtonStyle())
+                    .padding()
+                Spacer()
+            } // End Vstack
+        }// End NavigationView
     } // End BodyView
 } //End ContentView
 
 #Preview {
     ContentView()
 }
-// Adds a custom/changable style to buttons
-struct CustomButtonStyle: ButtonStyle {
+struct CustomButtonStyle: ButtonStyle { // Adds a custom/changable style to buttons
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(minWidth: 100)
@@ -122,5 +130,31 @@ struct CustomButtonStyle: ButtonStyle {
             .background(Color.black.opacity(configuration.isPressed ? 0.6 : 1.0))
             .foregroundColor(.white)
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+    }
+}
+struct InstructionsView: View { // The instructuion view, shows the instructions
+    var body: some View {
+        ZStack{
+            Color.white.opacity(0.5).ignoresSafeArea()
+            VStack{
+                Image("9ball").resizable().frame(width: 150, height: 150)
+                Text("Eight Ball")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .padding()
+                VStack(alignment: .leading) { // Add text to view
+                    Text("WOWZERS! instructions for a magic 8 ball")
+                        .padding()
+                    Text("1. Just ask me a question")
+                        .padding()
+                    Text("2. Shake the phone or hit the shake button")
+                        .padding()
+                    Text("3. Then I'll respond with a yes, no, or maybe. Depending on how stupid the question was")
+                        .padding()
+                        .multilineTextAlignment(.center)
+                }
+                Spacer()
+            }
+        }
     }
 }
