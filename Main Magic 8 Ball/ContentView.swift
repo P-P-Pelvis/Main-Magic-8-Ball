@@ -6,6 +6,37 @@
 //
 
 import SwiftUI
+import UIKit
+
+// MARK: - Simple Shake Detector (UIViewRepresentable)
+final class ShakeView: UIView {
+    override var canBecomeFirstResponder: Bool { true }
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        becomeFirstResponder()
+    }
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            onShake?()
+        }
+        super.motionEnded(motion, with: event)
+    }
+    var onShake: (() -> Void)?
+}
+
+struct ShakeDetector: UIViewRepresentable {
+    var onShake: () -> Void
+    func makeUIView(context: Context) -> ShakeView {
+        let v = ShakeView(frame: .zero)
+        v.onShake = onShake
+        v.isUserInteractionEnabled = false
+        v.backgroundColor = .clear
+        return v
+    }
+    func updateUIView(_ uiView: ShakeView, context: Context) {
+        uiView.onShake = onShake
+    }
+}
 
 struct ContentView: View {
     @State private var randomValue = 0
@@ -21,8 +52,26 @@ struct ContentView: View {
         "Better not tell you now",
         "Signs point to yes"
         ]
+
+    private func rerollMessage() {
+        withAnimation(.spring(response: 0.5, dampingFraction: 0.4, blendDuration: 0.2)) {
+            rotation += 360
+        }
+        messageOpacity = 0
+        randomValue = Int.random(in: 0..<messages.count)
+        withAnimation(.easeIn(duration: 0.35)) {
+            messageOpacity = 1
+        }
+    }
+
     var body: some View {
             VStack {
+            // Invisible shake listener
+            ShakeDetector {
+                rerollMessage()
+            }
+            .frame(width: 0, height: 0)
+            
             Text("Magic 8 Ball")
                 .font(.largeTitle)
                 .bold()
@@ -38,14 +87,7 @@ struct ContentView: View {
                 .padding()
                 .opacity(messageOpacity)
             Button("Shake") { // Animate rotation and pick a new random index
-                withAnimation(.spring(response: 0.5, dampingFraction: 0.4, blendDuration: 0.2)) {
-                    rotation += 360
-                }
-                messageOpacity = 0
-                randomValue = Int.random(in: 0..<messages.count)
-                withAnimation(.easeIn(duration: 0.35)) {
-                    messageOpacity = 1
-                }
+                rerollMessage()
             }
             .buttonStyle(CustomButtonStyle())
             .padding(.top, 16)
