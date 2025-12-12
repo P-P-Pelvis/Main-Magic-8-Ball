@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 
 // MARK: - Simple Shake Detector (UIViewRepresentable)
+//Ai generated - prompt : "How can i make it so when the phone shakes the message chages"
 final class ShakeView: UIView {
     override var canBecomeFirstResponder: Bool { true }
     override func didMoveToWindow() {
@@ -37,7 +38,7 @@ struct ShakeDetector: UIViewRepresentable {
         uiView.onShake = onShake
     }
 }
-
+//Ai generated
 struct ContentView: View {
     @State private var randomValue = 0
     @State private var rotation = 0.0
@@ -60,9 +61,9 @@ struct ContentView: View {
         "Ask again when you’ve upgraded your common sense",
         "Outlook not good. Like you thought it would be?",
         "You already know the answer is no. Don’t play dumb"
-        ]
-
-    private func rerollMessage() {
+    ]
+    
+    private func rerollMessage() { // Function that rerolls the message and adds the fade in effect and also controlls the 9ball animation
         withAnimation(.spring(response: 0.5, dampingFraction: 0.4, blendDuration: 0.2)) {
             rotation += 360
         }
@@ -72,15 +73,13 @@ struct ContentView: View {
             messageOpacity = 1
         }
     }
-
+    
     var body: some View {
-            VStack {
-            // Invisible shake listener
-            ShakeDetector {
+        VStack {
+            ShakeDetector { // Invisible shake listener, checks when the phone is shaken
                 rerollMessage()
             }
             .frame(width: 0, height: 0)
-            
             Text("Magic 8 Ball")
                 .font(.largeTitle)
                 .bold()
@@ -105,13 +104,14 @@ struct ContentView: View {
             .buttonStyle(CustomButtonStyle())
             .padding(.top, 16)
         } // End Vstack
+        
     } // End BodyView
 } //End ContentView
 
 #Preview {
     ContentView()
 }
-
+// Adds a custom/changable style to buttons
 struct CustomButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
