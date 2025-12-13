@@ -145,7 +145,7 @@ struct InstructionsView: View { // The instructuion view, shows the instructions
     }
 }
 
-struct ShakeDetector: UIViewRepresentable { //Ai generated with line 13 - 26
+struct ShakeDetector: UIViewRepresentable { //Ai generated with line 93 - 106
     var onShake: () -> Void
     func makeUIView(context: Context) -> ShakeView {
         let v = ShakeView(frame: .zero)
