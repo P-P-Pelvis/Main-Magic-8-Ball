@@ -8,23 +8,6 @@
 import SwiftUI
 import UIKit
 
-// MARK: - Simple Shake Detector (UIViewRepresentable)
-//Ai generated - prompt : "How can i make it so when the phone shakes the message chages"
-final class ShakeView: UIView {
-    override var canBecomeFirstResponder: Bool { true }
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        becomeFirstResponder()
-    }
-    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        if motion == .motionShake {
-            onShake?()
-        }
-        super.motionEnded(motion, with: event)
-    }
-    var onShake: (() -> Void)?
-}
-
 struct ContentView: View {
     @State private var randomValue = 0
     @State private var rotation = 0.0
@@ -105,6 +88,23 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
+
+//Ai generated - prompt : "How can i make it so when the phone shakes the message chages"
+final class ShakeView: UIView { 
+    override var canBecomeFirstResponder: Bool { true }
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        becomeFirstResponder()
+    }
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            onShake?()
+        }
+        super.motionEnded(motion, with: event)
+    }
+    var onShake: (() -> Void)?
+}
+
 struct CustomButtonStyle: ButtonStyle { // Adds a custom/changable style to buttons
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -158,3 +158,4 @@ struct ShakeDetector: UIViewRepresentable { //Ai generated with line 13 - 26
         uiView.onShake = onShake
     }
 }
+
