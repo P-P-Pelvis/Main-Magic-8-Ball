@@ -25,20 +25,6 @@ final class ShakeView: UIView {
     var onShake: (() -> Void)?
 }
 
-struct ShakeDetector: UIViewRepresentable {
-    var onShake: () -> Void
-    func makeUIView(context: Context) -> ShakeView {
-        let v = ShakeView(frame: .zero)
-        v.onShake = onShake
-        v.isUserInteractionEnabled = false
-        v.backgroundColor = .clear
-        return v
-    }
-    func updateUIView(_ uiView: ShakeView, context: Context) {
-        uiView.onShake = onShake
-    }
-}
-
 struct ContentView: View {
     @State private var randomValue = 0
     @State private var rotation = 0.0
@@ -156,5 +142,19 @@ struct InstructionsView: View { // The instructuion view, shows the instructions
                 Spacer()
             }
         }
+    }
+}
+
+struct ShakeDetector: UIViewRepresentable { //Ai generated with line 13 - 26
+    var onShake: () -> Void
+    func makeUIView(context: Context) -> ShakeView {
+        let v = ShakeView(frame: .zero)
+        v.onShake = onShake
+        v.isUserInteractionEnabled = false
+        v.backgroundColor = .clear
+        return v
+    }
+    func updateUIView(_ uiView: ShakeView, context: Context) {
+        uiView.onShake = onShake
     }
 }
