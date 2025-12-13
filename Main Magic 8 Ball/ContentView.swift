@@ -38,7 +38,7 @@ struct ShakeDetector: UIViewRepresentable {
         uiView.onShake = onShake
     }
 }
-//Ai generated
+
 struct ContentView: View {
     @State private var randomValue = 0
     @State private var rotation = 0.0
@@ -67,7 +67,7 @@ struct ContentView: View {
         "Need therapy for that question"
     ]
     
-    private func rerollMessage() { // Function that rerolls the message and adds the fade in effect and also controlls the 9ball animation
+    private func rerollMessage() { // Function that rerolls the message/fadein/animation Ai asisted
         withAnimation(.spring(response: 0.5, dampingFraction: 0.4, blendDuration: 0.2)) {
             rotation += 360
         }
@@ -77,7 +77,6 @@ struct ContentView: View {
             messageOpacity = 1
         }
     }
-    
     var body: some View {
         NavigationView {
             VStack {
@@ -132,6 +131,7 @@ struct CustomButtonStyle: ButtonStyle { // Adds a custom/changable style to butt
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
     }
 }
+
 struct InstructionsView: View { // The instructuion view, shows the instructions
     var body: some View {
         ZStack{
